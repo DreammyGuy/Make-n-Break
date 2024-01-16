@@ -1,6 +1,8 @@
 package org.example.demo;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -16,6 +18,7 @@ import java.util.TimerTask;
 public class Make_Break extends Application {
     //Variables
     public static final int SIZE = 25;
+    public static final int MOVE = 25;
     public static int XMAX = SIZE * 20;
     public static int YMAX = SIZE * 24;
     public static int [][] MESH = new int [XMAX/SIZE][YMAX/SIZE];
@@ -24,6 +27,7 @@ public class Make_Break extends Application {
     public static int score = 0;
     public static float timer = 0;
     private static boolean game = true;
+    private Eight_Brick eightBricks = new Eight_Brick();
 
 
     @Override
@@ -46,6 +50,12 @@ public class Make_Break extends Application {
         level.setFill(Color.GREEN);
         group.getChildren().addAll(scoretext, line, level);
 
+        //Set up Bricks Image
+
+        for (Brick brick : eightBricks.bricks) {
+            group.getChildren().addAll(brick.a, brick.b, brick.c);
+        }
+
         stage.setScene(scene);
         stage.setTitle("Make 'n' Break");
         stage.show();
@@ -57,12 +67,38 @@ public class Make_Break extends Application {
             public void run() {
                 if (game) {
                     //Bricks.Update();
+                    MoveOnKeyPress();
                     scoretext.setText("Score: " + Integer.toString(score));
                 }
             }
         };
 
         fall.schedule(gameUpdate, 0, 300);
+    }
+    private void MoveOnKeyPress() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case RIGHT:
+                        eightBricks.MoveRight();
+                        break;
+                    case DOWN:
+                        eightBricks.MoveDown();
+                        score++;
+                        break;
+                    case LEFT:
+                        eightBricks.MoveLeft();
+                        break;
+                    case UP:
+                        eightBricks.MoveUp();
+                        break;
+                    case Q:
+                        eightBricks.SwitchBrick();
+
+                }
+            }
+        });
     }
 
     public static void main(String[] args)
