@@ -19,8 +19,8 @@ public class Make_Break extends Application {
     //Variables
     public static final int SIZE = 25;
     public static final int MOVE = 25;
-    public static int XMAX = SIZE * 20;
-    public static int YMAX = SIZE * 24;
+    public static int XMAX = SIZE * 10;
+    public static int YMAX = SIZE * 12;
     public static int [][] MESH = new int [XMAX/SIZE][YMAX/SIZE];
     private static Pane group = new Pane();
     private static Scene scene = new Scene(group, XMAX + 150, YMAX);
@@ -66,8 +66,8 @@ public class Make_Break extends Application {
             @Override
             public void run() {
                 if (game) {
-                    //Bricks.Update();
                     MoveOnKeyPress();
+                    PrintMeshInConsole();
                     scoretext.setText("Score: " + Integer.toString(score));
                 }
             }
@@ -85,7 +85,6 @@ public class Make_Break extends Application {
                         break;
                     case DOWN:
                         eightBricks.MoveDown();
-                        score++;
                         break;
                     case LEFT:
                         eightBricks.MoveLeft();
@@ -95,10 +94,22 @@ public class Make_Break extends Application {
                         break;
                     case Q:
                         eightBricks.SwitchBrick();
+                        break;
+                    case R:
+                        //
 
                 }
             }
         });
+    }
+
+    public void PrintMeshInConsole() {
+        for (int i = 0; i < eightBricks.MESH[0].length; i++) {
+            for (int j = 0; j < eightBricks.MESH.length; j++) {
+                System.out.print(eightBricks.MESH[i][j]);
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args)

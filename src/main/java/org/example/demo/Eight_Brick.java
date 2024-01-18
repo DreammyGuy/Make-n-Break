@@ -11,6 +11,7 @@ public class Eight_Brick {
     public static int SIZE = Make_Break.SIZE;
     public static int XMAX = Make_Break.XMAX;
     public static int YMAX = Make_Break.YMAX;
+    public int [][] MESH = Make_Break.MESH;
     int brickIndex = 0;
 
     public Eight_Brick() {
@@ -24,6 +25,12 @@ public class Eight_Brick {
         bricks.add(MakeBrick(SIZE * 6, 0, 7));
         bricks.add(MakeBrick(SIZE * 7, 0, 8));
 
+        //Init position in MESH
+        for (Brick brick : bricks) {
+            MESH[(int) brick.a.getX() / SIZE][(int) brick.a.getY() / SIZE] = brick.brickNumber;
+            MESH[(int) brick.b.getX() / SIZE][(int) brick.b.getY() / SIZE] = brick.brickNumber;
+            MESH[(int) brick.c.getX() / SIZE][(int) brick.c.getY() / SIZE] = brick.brickNumber;
+        }
 
     }
     public void MoveUp() {
@@ -35,8 +42,8 @@ public class Eight_Brick {
         }
     }
     public void MoveDown() {
-        if (GetControlledBrick().a.getY() + MOVE <= XMAX - SIZE && GetControlledBrick().b.getY() + MOVE <= XMAX - SIZE
-                && GetControlledBrick().c.getY() + MOVE <= XMAX - SIZE) {
+        if (GetControlledBrick().a.getY() + MOVE <= YMAX - SIZE && GetControlledBrick().b.getY() + MOVE <= YMAX - SIZE
+                && GetControlledBrick().c.getY() + MOVE <= YMAX - SIZE) {
             GetControlledBrick().a.setY(GetControlledBrick().a.getY() + MOVE);
             GetControlledBrick().b.setY(GetControlledBrick().b.getY() + MOVE);
             GetControlledBrick().c.setY(GetControlledBrick().c.getY() + MOVE);
