@@ -1,8 +1,10 @@
 package org.example.demo;
 
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Eight_Brick {
@@ -26,6 +28,9 @@ public class Eight_Brick {
         bricks.add(MakeBrick(SIZE * 7, 0, 8));
 
         //Init position in MESH
+        for (int[] a : MESH) {
+            Arrays.fill(a, 0);
+        }
         for (Brick brick : bricks) {
             MESH[(int) brick.a.getX() / SIZE][(int) brick.a.getY() / SIZE] = brick.brickNumber;
             MESH[(int) brick.b.getX() / SIZE][(int) brick.b.getY() / SIZE] = brick.brickNumber;
@@ -33,34 +38,72 @@ public class Eight_Brick {
         }
 
     }
+    private boolean CanMoveUp() {
+        boolean isNotGonnaOutOfUpBoundary = GetControlledBrick().a.getY() - MOVE >= 0 && GetControlledBrick().b.getY() - MOVE >= 0
+                && GetControlledBrick().c.getY() - MOVE >= 0;
+        int movea = MESH[((int) GetControlledBrick().a.getX() / SIZE)][((int) GetControlledBrick().a.getY() / SIZE) - 1];
+        int moveb = MESH[((int) GetControlledBrick().b.getX() / SIZE)][((int) GetControlledBrick().b.getY() / SIZE) - 1];
+        int movec = MESH[((int) GetControlledBrick().c.getX() / SIZE)][((int) GetControlledBrick().c.getY() / SIZE) - 1];
+        boolean isNotCollideWithOtherBricksOnTheUpSide = (movea == 0 || movea == GetControlledBrick().brickNumber) &&
+                (moveb == 0 || moveb == GetControlledBrick().brickNumber) && (movec == 0 || movec == GetControlledBrick().brickNumber);
+        return isNotGonnaOutOfUpBoundary && isNotCollideWithOtherBricksOnTheUpSide;
+    }
     public void MoveUp() {
-        if (GetControlledBrick().a.getY() - MOVE >= 0 && GetControlledBrick().b.getY() - MOVE >= 0
-                && GetControlledBrick().c.getX() - MOVE >= 0) {
+        if (CanMoveUp()) {
             GetControlledBrick().a.setY(GetControlledBrick().a.getY() - MOVE);
             GetControlledBrick().b.setY(GetControlledBrick().b.getY() - MOVE);
             GetControlledBrick().c.setY(GetControlledBrick().c.getY() - MOVE);
         }
     }
+    private boolean CanMoveDown() {
+        boolean isNotGonnaOutOfDownBoundary = GetControlledBrick().a.getY() + MOVE <= YMAX - SIZE && GetControlledBrick().b.getY() + MOVE <= YMAX - SIZE
+                && GetControlledBrick().c.getY() + MOVE <= YMAX - SIZE;
+        int movea = MESH[((int) GetControlledBrick().a.getX() / SIZE)][((int) GetControlledBrick().a.getY() / SIZE) + 1];
+        int moveb = MESH[((int) GetControlledBrick().b.getX() / SIZE)][((int) GetControlledBrick().b.getY() / SIZE) + 1];
+        int movec = MESH[((int) GetControlledBrick().c.getX() / SIZE)][((int) GetControlledBrick().c.getY() / SIZE) + 1];
+        boolean isNotCollideWithOtherBricksOnTheDownSide = (movea == 0 || movea == GetControlledBrick().brickNumber) &&
+                (moveb == 0 || moveb == GetControlledBrick().brickNumber) && (movec == 0 || movec == GetControlledBrick().brickNumber);
+        return isNotGonnaOutOfDownBoundary && isNotCollideWithOtherBricksOnTheDownSide;
+    }
     public void MoveDown() {
-        if (GetControlledBrick().a.getY() + MOVE <= YMAX - SIZE && GetControlledBrick().b.getY() + MOVE <= YMAX - SIZE
-                && GetControlledBrick().c.getY() + MOVE <= YMAX - SIZE) {
+        if (CanMoveDown()) {
             GetControlledBrick().a.setY(GetControlledBrick().a.getY() + MOVE);
             GetControlledBrick().b.setY(GetControlledBrick().b.getY() + MOVE);
             GetControlledBrick().c.setY(GetControlledBrick().c.getY() + MOVE);
         }
     }
+    private boolean CanMoveLeft() {
+        boolean isNotGonnaOutOfLeftBoundary = GetControlledBrick().a.getX() - MOVE >= 0 && GetControlledBrick().b.getX() - MOVE >= 0
+                && GetControlledBrick().c.getX() - MOVE >= 0;
+        int movea = MESH[((int) GetControlledBrick().a.getX() / SIZE) - 1][((int) GetControlledBrick().a.getY() / SIZE)];
+        int moveb = MESH[((int) GetControlledBrick().b.getX() / SIZE) - 1][((int) GetControlledBrick().b.getY() / SIZE)];
+        int movec = MESH[((int) GetControlledBrick().c.getX() / SIZE) - 1][((int) GetControlledBrick().c.getY() / SIZE)];
+        boolean isNotCollideWithOtherBricksOnTheLeftSide = (movea == 0 || movea == GetControlledBrick().brickNumber) &&
+                (moveb == 0 || moveb == GetControlledBrick().brickNumber) && (movec == 0 || movec == GetControlledBrick().brickNumber);
+        return isNotGonnaOutOfLeftBoundary && isNotCollideWithOtherBricksOnTheLeftSide;
+    }
     public void MoveLeft() {
-        if (GetControlledBrick().a.getX() - MOVE >= 0 && GetControlledBrick().b.getX() - MOVE >= 0
-                && GetControlledBrick().c.getX() - MOVE >= 0) {
+        if (CanMoveLeft()) {
             GetControlledBrick().a.setX(GetControlledBrick().a.getX() - MOVE);
             GetControlledBrick().b.setX(GetControlledBrick().b.getX() - MOVE);
             GetControlledBrick().c.setX(GetControlledBrick().c.getX() - MOVE);
         }
 
     }
+
+    private boolean CanMoveRight() {
+        boolean isNotGonnaOutOfRightBoundary = GetControlledBrick().a.getX() + MOVE <= XMAX - SIZE && GetControlledBrick().b.getX() + MOVE <= XMAX - SIZE
+                && GetControlledBrick().c.getX() + MOVE <= XMAX - SIZE;
+        int movea = MESH[((int) GetControlledBrick().a.getX() / SIZE) + 1][((int) GetControlledBrick().a.getY() / SIZE)];
+        int moveb = MESH[((int) GetControlledBrick().b.getX() / SIZE) + 1][((int) GetControlledBrick().b.getY() / SIZE)];
+        int movec = MESH[((int) GetControlledBrick().c.getX() / SIZE) + 1][((int) GetControlledBrick().c.getY() / SIZE)];
+        boolean isNotCollideWithOtherBricksOnTheRightSide = (movea == 0 || movea == GetControlledBrick().brickNumber) &&
+                (moveb == 0 || moveb == GetControlledBrick().brickNumber) && (movec == 0 || movec == GetControlledBrick().brickNumber);
+        return isNotGonnaOutOfRightBoundary && isNotCollideWithOtherBricksOnTheRightSide;
+    }
+
     public void MoveRight() {
-        if (GetControlledBrick().a.getX() + MOVE <= XMAX - SIZE && GetControlledBrick().b.getX() + MOVE <= XMAX - SIZE
-                && GetControlledBrick().c.getX() + MOVE <= XMAX - SIZE) {
+        if (CanMoveRight()) {
             GetControlledBrick().a.setX(GetControlledBrick().a.getX() + MOVE);
             GetControlledBrick().b.setX(GetControlledBrick().b.getX() + MOVE);
             GetControlledBrick().c.setX(GetControlledBrick().c.getX() + MOVE);
@@ -69,6 +112,7 @@ public class Eight_Brick {
 
 
     private Brick MakeBrick(int xPos, int yPos, int brickNumber) {
+        //Set size
         Rectangle a = new Rectangle(SIZE-1, SIZE-1), b = new Rectangle(SIZE-1, SIZE-1),
                 c = new Rectangle(SIZE-1, SIZE-1);
 
@@ -91,6 +135,17 @@ public class Eight_Brick {
     }
     private Brick GetControlledBrick() {
         return bricks.get(brickIndex);
+    }
+    public void PrintMeshInConsole() {
+        for (int i = 0; i < MESH.length; i++) {
+            for (int j = 0; j < MESH[0].length; j++) {
+                System.out.print(MESH[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 
 }

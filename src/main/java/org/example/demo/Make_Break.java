@@ -17,8 +17,8 @@ import java.util.TimerTask;
 
 public class Make_Break extends Application {
     //Variables
-    public static final int SIZE = 25;
-    public static final int MOVE = 25;
+    public static final int SIZE = 40;
+    public static final int MOVE = 40;
     public static int XMAX = SIZE * 10;
     public static int YMAX = SIZE * 12;
     public static int [][] MESH = new int [XMAX/SIZE][YMAX/SIZE];
@@ -29,13 +29,13 @@ public class Make_Break extends Application {
     private static boolean game = true;
     private Eight_Brick eightBricks = new Eight_Brick();
 
+    public static void main(String[] args)
+    {
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage) {
-        //Init arrays
-        for (int[] a : MESH) {
-            Arrays.fill(a, 0);
-        }
 
         //Set up scene and Start Game
         Line line = new Line(XMAX, 0, XMAX, YMAX);
@@ -55,6 +55,7 @@ public class Make_Break extends Application {
         for (Brick brick : eightBricks.bricks) {
             group.getChildren().addAll(brick.a, brick.b, brick.c);
         }
+        MoveOnKeyPress();
 
         stage.setScene(scene);
         stage.setTitle("Make 'n' Break");
@@ -66,8 +67,8 @@ public class Make_Break extends Application {
             @Override
             public void run() {
                 if (game) {
-                    MoveOnKeyPress();
-                    PrintMeshInConsole();
+                    //MoveOnKeyPress();
+                    eightBricks.PrintMeshInConsole();
                     scoretext.setText("Score: " + Integer.toString(score));
                 }
             }
@@ -101,19 +102,5 @@ public class Make_Break extends Application {
                 }
             }
         });
-    }
-
-    public void PrintMeshInConsole() {
-        for (int i = 0; i < eightBricks.MESH[0].length; i++) {
-            for (int j = 0; j < eightBricks.MESH.length; j++) {
-                System.out.print(eightBricks.MESH[i][j]);
-            }
-            System.out.println();
-        }
-    }
-
-    public static void main(String[] args)
-    {
-        launch(args);
     }
 }
