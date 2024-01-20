@@ -157,7 +157,61 @@ public class Eight_Brick {
             GetControlledBrick().c.setX(GetControlledBrick().c.getX() + MOVE);
         }
     }
+    private boolean CanRotateToHorizontal() {
+        boolean isNotCollideWithBoundary = (GetControlledBrick().a.getX() + MOVE <= XMAX - SIZE) && (GetControlledBrick().a.getY() + MOVE <= YMAX - SIZE) &&
+                (GetControlledBrick().c.getX() - MOVE >= 0) && (GetControlledBrick().c.getY() - MOVE >= 0);
+        if (isNotCollideWithBoundary) {
+            boolean isNotCollideWithOtherBrick = (MESH[((int) GetControlledBrick().a.getX() / SIZE) + 1][((int) GetControlledBrick().a.getY() / SIZE) + 1] == 0) &&
+                    (MESH[((int) GetControlledBrick().c.getX() / SIZE) - 1][((int) GetControlledBrick().c.getY() / SIZE) - 1] == 0);
+            return isNotCollideWithOtherBrick;
+        }
+        return false;
+    }
+    private boolean CanRotateToVertical() {
+        boolean isNotCollideWithBoundary = (GetControlledBrick().a.getX() - MOVE >= 0) && (GetControlledBrick().a.getY() - MOVE >= 0) &&
+                (GetControlledBrick().c.getX() + MOVE <= XMAX - SIZE) && (GetControlledBrick().c.getY() + MOVE <= YMAX - SIZE);
+        if (isNotCollideWithBoundary) {
+            boolean isNotCollideWithOtherBrick = (MESH[((int) GetControlledBrick().a.getX() / SIZE) - 1][((int) GetControlledBrick().a.getY() / SIZE) - 1] == 0) &&
+                    (MESH[((int) GetControlledBrick().c.getX() / SIZE) + 1][((int) GetControlledBrick().c.getY() / SIZE) + 1] == 0);
+            return isNotCollideWithOtherBrick;
+        }
+        return false;
+    }
+    public void Rotate() {
+        if (GetControlledBrick().isVertical) {
+            if (CanRotateToHorizontal()) {
+                //Rotate in Mesh
+                MESH[((int) GetControlledBrick().a.getX() / SIZE)][((int) GetControlledBrick().a.getY() / SIZE)] = 0;
+                MESH[((int) GetControlledBrick().c.getX() / SIZE)][((int) GetControlledBrick().c.getY() / SIZE)] = 0;
+                MESH[((int) GetControlledBrick().a.getX() / SIZE) + 1][((int) GetControlledBrick().a.getY() / SIZE) + 1] = GetControlledBrick().brickNumber;
+                MESH[((int) GetControlledBrick().c.getX() / SIZE) - 1][((int) GetControlledBrick().c.getY() / SIZE) - 1] = GetControlledBrick().brickNumber;
 
+                //Rotate in Console
+                GetControlledBrick().a.setX(GetControlledBrick().a.getX() + MOVE);
+                GetControlledBrick().a.setY(GetControlledBrick().a.getY() + MOVE);
+                GetControlledBrick().c.setX(GetControlledBrick().c.getX() - MOVE);
+                GetControlledBrick().c.setY(GetControlledBrick().c.getY() - MOVE);
+
+                GetControlledBrick().isVertical = false;
+            }
+        } else {
+            if (CanRotateToVertical()) {
+                //Rotate in Mesh
+                MESH[((int) GetControlledBrick().a.getX() / SIZE)][((int) GetControlledBrick().a.getY() / SIZE)] = 0;
+                MESH[((int) GetControlledBrick().c.getX() / SIZE)][((int) GetControlledBrick().c.getY() / SIZE)] = 0;
+                MESH[((int) GetControlledBrick().a.getX() / SIZE) - 1][((int) GetControlledBrick().a.getY() / SIZE) - 1] = GetControlledBrick().brickNumber;
+                MESH[((int) GetControlledBrick().c.getX() / SIZE) + 1][((int) GetControlledBrick().c.getY() / SIZE) + 1] = GetControlledBrick().brickNumber;
+
+                //Rotate in Console
+                GetControlledBrick().a.setX(GetControlledBrick().a.getX() - MOVE);
+                GetControlledBrick().a.setY(GetControlledBrick().a.getY() - MOVE);
+                GetControlledBrick().c.setX(GetControlledBrick().c.getX() + MOVE);
+                GetControlledBrick().c.setY(GetControlledBrick().c.getY() + MOVE);
+
+                GetControlledBrick().isVertical = true;
+            }
+        }
+    }
 
     private Brick MakeBrick(int xPos, int yPos, int brickNumber) {
         //Set size

@@ -20,7 +20,7 @@ public class Make_Break extends Application {
     public static final int SIZE = 40;
     public static final int MOVE = 40;
     public static int XMAX = SIZE * 10;
-    public static int YMAX = SIZE * 12;
+    public static int YMAX = SIZE * 10;
     public static int [][] MESH = new int [XMAX/SIZE][YMAX/SIZE];
     private static Pane group = new Pane();
     private static Scene scene = new Scene(group, XMAX + 150, YMAX);
@@ -96,9 +96,9 @@ public class Make_Break extends Application {
                     case Q:
                         eightBricks.SwitchBrick();
                         break;
-                    case R:
-                        //
-
+                    case W:
+                        eightBricks.Rotate();
+                        break;
                 }
             }
         });

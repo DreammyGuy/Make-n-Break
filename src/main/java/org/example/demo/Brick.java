@@ -8,12 +8,14 @@ public class Brick {
     Rectangle b;
     Rectangle c;
     Color color;
+    boolean isVertical;
     int brickNumber;
 
     public Brick(Rectangle a, Rectangle b, Rectangle c, int brickNumber) {
         this.a = a;
         this.b = b;
         this.c = c;
+        this.isVertical = true;
         this.brickNumber = brickNumber;
 
         switch (brickNumber) {
