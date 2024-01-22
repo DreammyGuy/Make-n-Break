@@ -99,6 +99,9 @@ public class Make_Break extends Application {
                     case W:
                         eightBricks.Rotate();
                         break;
+                    case E:
+                        //checker.Check();
+                        break;
                 }
             }
         });
