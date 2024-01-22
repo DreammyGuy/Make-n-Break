@@ -32,7 +32,7 @@ public class Brick {
                 color = Color.ORANGE;
                 break;
             case 5:
-                color = Color.PINK;
+                color = Color.YELLOW;
                 break;
             case 6:
                 color = Color.PURPLE;
