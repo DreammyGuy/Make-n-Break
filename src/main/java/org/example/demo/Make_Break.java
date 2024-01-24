@@ -61,6 +61,7 @@ public class Make_Break extends Application {
         stage.setTitle("Make 'n' Break");
         stage.show();
 
+
         //Game Loop
         Timer fall = new Timer();
         TimerTask gameUpdate = new TimerTask() {
@@ -100,7 +101,7 @@ public class Make_Break extends Application {
                         eightBricks.Rotate();
                         break;
                     case E:
-                        //checker.Check();
+                        //checker.Check(eightBricks);
                         break;
                 }
             }
