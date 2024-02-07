@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Modality;
-import javafx.stage.StageStyle;
 
 public class ScenesController extends Application {
 
