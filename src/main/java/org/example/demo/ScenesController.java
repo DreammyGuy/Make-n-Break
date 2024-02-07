@@ -1,6 +1,7 @@
 package org.example.demo;
-
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -25,22 +26,28 @@ public class ScenesController extends Application {
 
         // Main menu layout
         VBox menuLayout = new VBox();
-        Scene menuScene = new Scene(menuLayout, 800, 583); // Set scene size according to image size
+        menuLayout.setAlignment(Pos.CENTER); // Align VBox contents to the center
+        menuLayout.setSpacing(20); // Set spacing between buttons
+        menuLayout.setPadding(new Insets(150, 0, 0, 0)); // Add padding at the top and bottom
 
         // Set the background image as the root node of the scene
         StackPane root = new StackPane();
-        root.getChildren().add(backgroundImageView);
-        menuScene.setRoot(root);
+        root.getChildren().addAll(backgroundImageView, menuLayout);
+
+        Scene menuScene = new Scene(root, 800, 583); // Set scene size according to image size
 
         // Buttons
         Button playButton = new Button("Play");
         playButton.setOnAction(e -> startGame());
+        playButton.setStyle("-fx-background-color: orange; -fx-background-radius: 40px; -fx-text-fill: black; -fx-font-size: 30px; -fx-padding: 5px 70px;");
 
         Button creditButton = new Button("Credits");
         creditButton.setOnAction(e -> showCredits());
+        creditButton.setStyle("-fx-background-color: orange; -fx-background-radius: 40px; -fx-text-fill: black; -fx-font-size: 30px; -fx-padding: 5px 30px;");
 
         Button quitButton = new Button("Quit");
         quitButton.setOnAction(e -> quitGame());
+        quitButton.setStyle("-fx-background-color: orange; -fx-background-radius: 40px; -fx-text-fill: black; -fx-font-size: 30px; -fx-padding: 5px 20px;");
 
         // Add buttons to menu layout
         menuLayout.getChildren().addAll(playButton, creditButton, quitButton);
@@ -76,3 +83,4 @@ public class ScenesController extends Application {
         launch(args);
     }
 }
+
