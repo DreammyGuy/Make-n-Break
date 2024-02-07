@@ -59,7 +59,7 @@ public class Checker {
 
         RandomCardIndex();
         imageView.setImage(GetCurrentCard().image);
-        bricksController.ResetAllBrickPosition();
+
         return true;
     }
     private Card GetCurrentCard() {

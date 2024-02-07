@@ -18,7 +18,7 @@ import java.util.TimerTask;
 public class Make_Break extends Application {
     //Variables
     public static final int SIZE = 70;
-    public static final int MOVE = 40;
+    public static final int MOVE = SIZE;
     public static int XMAX = SIZE * 10;
     public static int YMAX = SIZE * 10;
     public static int [][] MESH = new int [XMAX/SIZE][YMAX/SIZE];
