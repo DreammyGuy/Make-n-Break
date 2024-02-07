@@ -17,7 +17,7 @@ import java.util.TimerTask;
 
 public class Make_Break extends Application {
     //Variables
-    public static final int SIZE = 40;
+    public static final int SIZE = 70;
     public static final int MOVE = 40;
     public static int XMAX = SIZE * 10;
     public static int YMAX = SIZE * 10;
@@ -115,7 +115,7 @@ public class Make_Break extends Application {
                         bricksController.Rotate();
                         break;
                     case E:
-                        //checker.Check();
+                   //checker.Check();
                         if (checker.Check(bricksController))
                             score += 3;
 

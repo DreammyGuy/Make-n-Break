@@ -39,8 +39,8 @@ public class Checker {
 
 
         //Set Up Image
-        imageView.setX(XMAX + 4);
-        imageView.setY(200);
+        imageView.setX(XMAX + 300);
+        imageView.setY(400);
         imageView.setFitHeight(160);
         imageView.setFitWidth(150);
         imageView.setPreserveRatio(true);
