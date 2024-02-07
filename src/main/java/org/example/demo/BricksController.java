@@ -1,14 +1,15 @@
 package org.example.demo;
 
-import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Eight_Brick {
+public class BricksController {
     List<Brick> bricks = new ArrayList<>();
+    Rectangle highlightBrick;
     public static int MOVE = Make_Break.MOVE;
     public static int SIZE = Make_Break.SIZE;
     public static int XMAX = Make_Break.XMAX;
@@ -16,7 +17,7 @@ public class Eight_Brick {
     public int [][] MESH = Make_Break.MESH;
     int brickIndex = 0;
 
-    public Eight_Brick() {
+    public BricksController() {
         //Add 8 Bricks
         bricks.add(MakeBrick(0, 0, 1));
         bricks.add(MakeBrick(SIZE, 0, 2));
@@ -37,6 +38,17 @@ public class Eight_Brick {
             MESH[(int) brick.c.getX() / SIZE][(int) brick.c.getY() / SIZE] = brick.brickNumber;
         }
 
+        //Init highlight Brick
+        highlightBrick = new Rectangle(SIZE-30, SIZE-30);
+        highlightBrick.setFill(Color.WHITE);
+        highlightBrick.setX(GetControlledBrick().b.getX() + 15);
+        highlightBrick.setY(GetControlledBrick().b.getY() + 15);
+
+
+    }
+    private void UpdateHighlightBrickPosition() {
+        highlightBrick.setX(GetControlledBrick().b.getX() + 15);
+        highlightBrick.setY(GetControlledBrick().b.getY() + 15);
     }
     private boolean CanMoveUp() {
         boolean isNotGonnaOutOfUpBoundary = GetControlledBrick().a.getY() - MOVE >= 0 && GetControlledBrick().b.getY() - MOVE >= 0
@@ -129,6 +141,10 @@ public class Eight_Brick {
         GetControlledBrick().a.setY(GetControlledBrick().a.getY() + y * MOVE);
         GetControlledBrick().b.setY(GetControlledBrick().b.getY() + y * MOVE);
         GetControlledBrick().c.setY(GetControlledBrick().c.getY() + y * MOVE);
+
+        UpdateHighlightBrickPosition();
+
+
     }
     private boolean CanRotateToHorizontal() {
         boolean isNotCollideWithBoundary = (GetControlledBrick().a.getX() + MOVE <= XMAX - SIZE) && (GetControlledBrick().a.getY() + MOVE <= YMAX - SIZE) &&
@@ -185,6 +201,28 @@ public class Eight_Brick {
             }
         }
     }
+    public void ResetAllBrickPosition() {
+        // Reset MESH into 0
+        for (int[] a : MESH) {
+            Arrays.fill(a, 0);
+        }
+
+        for (Brick brick : bricks) {
+            //Reset Position
+            brick.a.setX(SIZE * (brick.brickNumber - 1));
+            brick.a.setY(0);
+            brick.b.setX(SIZE * (brick.brickNumber - 1));
+            brick.b.setY(SIZE);
+            brick.c.setX(SIZE * (brick.brickNumber - 1));
+            brick.c.setY(SIZE*2);
+
+
+            //Reset MESH
+            MESH[(int) brick.a.getX() / SIZE][(int) brick.a.getY() / SIZE] = brick.brickNumber;
+            MESH[(int) brick.b.getX() / SIZE][(int) brick.b.getY() / SIZE] = brick.brickNumber;
+            MESH[(int) brick.c.getX() / SIZE][(int) brick.c.getY() / SIZE] = brick.brickNumber;
+        }
+    }
 
     private Brick MakeBrick(int xPos, int yPos, int brickNumber) {
         //Set size
@@ -207,6 +245,8 @@ public class Eight_Brick {
         } else {
             brickIndex = 0;
         }
+
+        UpdateHighlightBrickPosition();
     }
     private Brick GetControlledBrick() {
         return bricks.get(brickIndex);
