@@ -32,10 +32,10 @@ public class Make_Break extends Application {
     private BricksController bricksController = new BricksController();
     private Checker checker = new Checker();
 
-    public static void main(String[] args)
-    {
-        launch(args);
-    }
+//    public static void main(String[] args)
+//    {
+//        launch(args);
+//    }
 
     @Override
     public void start(Stage stage) {
