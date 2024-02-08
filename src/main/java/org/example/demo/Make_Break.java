@@ -2,43 +2,46 @@ package org.example.demo;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.*;
 
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Make_Break extends Application {
     //Variables
-    public static final int SIZE = 40;
-    public static final int MOVE = 40;
+    public static final int SIZE = 70;
+    public static final int MOVE = SIZE;
     public static int XMAX = SIZE * 10;
     public static int YMAX = SIZE * 10;
     public static int [][] MESH = new int [XMAX/SIZE][YMAX/SIZE];
-    private static Pane group = new Pane();
-    private static Scene scene = new Scene(group, XMAX + 150, YMAX);
+    private static Pane gameLayout = new Pane();
+    private static Scene gameScene = new Scene(gameLayout, XMAX + 150, YMAX);
+    private static VBox menuLayout = new VBox();
+    private static Scene menuScene = new Scene(menuLayout, XMAX + 150, YMAX);
     public static int score = 0;
     public static float timer = 0;
     private static boolean game = true;
-    private Eight_Brick eightBricks = new Eight_Brick();
+    private BricksController bricksController = new BricksController();
+    private Checker checker = new Checker();
 
-    public static void main(String[] args)
-    {
-        launch(args);
-    }
+//    public static void main(String[] args)
+//    {
+//        launch(args);
+//    }
 
     @Override
     public void start(Stage stage) {
 
-        //Set up scene and Start Game
-        Line line = new Line(XMAX, 0, XMAX, YMAX);
+        //Set up gameScene and Start Game
+        Line line1 = new Line(XMAX, 0, XMAX, YMAX);
         Text scoretext = new Text("Score: ");
         scoretext.setStyle("-fx-font: 20 arial;");
         scoretext.setY(50);
@@ -48,16 +51,28 @@ public class Make_Break extends Application {
         level.setY(100);
         level.setX(XMAX + 5);
         level.setFill(Color.GREEN);
-        group.getChildren().addAll(scoretext, line, level);
+        gameLayout.getChildren().addAll(scoretext, line1, level);
+
 
         //Set up Bricks Image
-
-        for (Brick brick : eightBricks.bricks) {
-            group.getChildren().addAll(brick.a, brick.b, brick.c);
+        for (Brick brick : bricksController.bricks) {
+            gameLayout.getChildren().addAll(brick.a, brick.b, brick.c);
         }
+        gameLayout.getChildren().add(bricksController.highlightBrick);
         MoveOnKeyPress();
 
-        stage.setScene(scene);
+
+        //Set up Card Image
+        gameLayout.getChildren().add(checker.imageView);
+
+
+        //Set up menuScene
+        Button startButton = new Button("Game Start");
+        startButton.setOnAction(e -> stage.setScene(gameScene));
+
+
+
+        stage.setScene(gameScene);
         stage.setTitle("Make 'n' Break");
         stage.show();
 
@@ -68,7 +83,7 @@ public class Make_Break extends Application {
             public void run() {
                 if (game) {
                     //MoveOnKeyPress();
-                    eightBricks.PrintMeshInConsole();
+                    //bricksController.PrintMeshInConsole();
                     scoretext.setText("Score: " + Integer.toString(score));
                 }
             }
@@ -77,30 +92,33 @@ public class Make_Break extends Application {
         fall.schedule(gameUpdate, 0, 300);
     }
     private void MoveOnKeyPress() {
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case RIGHT:
-                        eightBricks.MoveRight();
+                        bricksController.MoveRight();
                         break;
                     case DOWN:
-                        eightBricks.MoveDown();
+                        bricksController.MoveDown();
                         break;
                     case LEFT:
-                        eightBricks.MoveLeft();
+                        bricksController.MoveLeft();
                         break;
                     case UP:
-                        eightBricks.MoveUp();
+                        bricksController.MoveUp();
                         break;
                     case Q:
-                        eightBricks.SwitchBrick();
+                        bricksController.SwitchBrick();
                         break;
                     case W:
-                        eightBricks.Rotate();
+                        bricksController.Rotate();
                         break;
                     case E:
-                        //checker.Check();
+                   //checker.Check();
+                        if (checker.Check(bricksController))
+                            score += 3;
+
                         break;
                 }
             }
