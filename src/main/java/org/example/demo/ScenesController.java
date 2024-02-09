@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Modality;
 
+import java.io.File;
+
 public class ScenesController extends Application {
 
     private Stage stage;
@@ -21,7 +23,7 @@ public class ScenesController extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
 
-        Image backgroundImage = new Image("file:C:\\Users\\ADMIN\\Documents\\GitHub\\Make-n-Break\\src\\image\\output-onlinepngtools (1).png");
+        Image backgroundImage = new Image(new File("src/image/output-onlinepngtools (1).png").toURI().toString());
 
         ImageView backgroundImageView = new ImageView(backgroundImage);
 
