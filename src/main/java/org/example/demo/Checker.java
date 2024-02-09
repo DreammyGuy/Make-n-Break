@@ -11,6 +11,7 @@ public class Checker {
     List<Card> listOfCards = new ArrayList<>();
     ImageView imageView = new ImageView();
     public int [][] MESH = Make_Break.MESH;
+    public int scoreReward;
     public static final int SIZE = 40;
     public static int XMAX = SIZE * 10;
     public static int YMAX = SIZE * 10;
@@ -44,6 +45,7 @@ public class Checker {
         imageView.setFitHeight(160);
         imageView.setFitWidth(150);
         imageView.setPreserveRatio(true);
+        RandomCardIndex();
         imageView.setImage(GetCurrentCard().image);
     }
 
@@ -57,6 +59,7 @@ public class Checker {
             }
         }
 
+        scoreReward = GetCurrentCard().score;
         RandomCardIndex();
         imageView.setImage(GetCurrentCard().image);
 

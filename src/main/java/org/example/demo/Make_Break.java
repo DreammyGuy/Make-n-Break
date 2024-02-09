@@ -114,10 +114,10 @@ public class Make_Break extends Application {
                     case W:
                         bricksController.Rotate();
                         break;
-                    case E:
+                    case ENTER:
                    //checker.Check();
                         if (checker.Check(bricksController))
-                            score += 3;
+                            score += checker.scoreReward;
 
                         break;
                 }
